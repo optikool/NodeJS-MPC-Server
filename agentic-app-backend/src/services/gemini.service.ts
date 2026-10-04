@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-class GeminiService {
+export class GeminiService {
   apiKey: string;
   model: string;
   genAI: GoogleGenAI;
@@ -60,5 +60,3 @@ class GeminiService {
     }
   }
 }
-
-export default GeminiService;
