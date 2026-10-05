@@ -1,24 +1,32 @@
 import { GoogleGenAI } from "@google/genai";
 
-export class GeminiService {
-  apiKey: string;
-  model: string;
-  genAI: GoogleGenAI;
+class GeminiService {
+  private static instance: GeminiService;
+  private readonly model: string;
+  private readonly genAI: GoogleGenAI;
 
-  constructor(apiKey: string, model: string) {
-    this.apiKey = apiKey;
-    this.model = model;
+  constructor() {
+    const apiKey = process.env.GEMINI_API_KEY;
+    const model = process.env.GEMINI_MODEL;
 
-    if (!this.apiKey) {
+    if (!apiKey) {
       throw new Error(
         "GEMINI_API_KEY is not set in the environment variables.",
       );
     }
-    if (!this.model) {
+    if (!model) {
       throw new Error("GEMINI_MODEL is not set in the environment variables.");
     }
 
-    this.genAI = new GoogleGenAI({ apiKey: this.apiKey });
+    this.model = model;
+    this.genAI = new GoogleGenAI({ apiKey: apiKey });
+  }
+
+  static getInstance(): GeminiService {
+    if (!this.instance) {
+      this.instance = new GeminiService();
+    }
+    return this.instance;
   }
 
   async generateResponse(prompt: string): Promise<string> {
@@ -26,12 +34,6 @@ export class GeminiService {
       const response = await this.genAI.models.generateContent({
         model: this.model,
         contents: prompt,
-        // config: {
-        //     systemInstruction: "You are a cat. Your name is Neko.",
-        //     thinkingConfig: {
-        //         thinkingBudget: 0,
-        //     }
-        // }
       });
       return response.text || "No response generated.";
     } catch (error: any) {
@@ -60,3 +62,5 @@ export class GeminiService {
     }
   }
 }
+
+export const GEMINI = GeminiService.getInstance();

@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import express from "express";
-import { GeminiService } from "../services/gemini.service.ts";
+import { GEMINI }  from "../services/gemini.service.ts";
 import OllamaService from "../services/ollama.service.ts";
 
 const router = express.Router();
@@ -17,12 +17,7 @@ export class ChatController {
         console.log(`Received message: ${prompt}`);
 
         try {
-            const gemini = new GeminiService(
-                process.env.GEMINI_API_KEY!,
-                process.env.GEMINI_MODEL!,
-            );
-
-            const response = await gemini.generateResponse(prompt);
+            const response = await GEMINI.generateResponse(prompt);
             console.log(`Gemini response: ${response}`);
 
             res.json({ reply: response });
