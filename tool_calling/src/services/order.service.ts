@@ -23,7 +23,7 @@ export class OrderService {
                 customer: customer?.name || "Unknown Customer"
             };
         });
-
+        console.log("Orders with customer details:", orders);
         const sortedOrders = orders.sort((a, b) => 
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );

@@ -6,12 +6,12 @@ import OllamaService from "../services/ollama.service.ts";
 const router = express.Router();
 
 export class ChatController {
-    static async generateGeminiResponse(req: Request, res: Response) {
+    static async generateGeminiResponse(req: Request, res: Response): Promise<void> {
         const messages = req.body.messages;
         const prompt  = messages[0].content.trim();
 
         if (!prompt) {
-        return res.status(400).json({ error: "Prompt is required" });
+            res.status(400).json({ error: "Prompt is required" });
         }
 
         console.log(`Received message: ${prompt}`);
@@ -28,7 +28,7 @@ export class ChatController {
 
     }
 
-    static async generateOllamaResponse(req: Request, res: Response) {
+    static async generateOllamaResponse(req: Request, res: Response): Promise<void> {
         try {
             const messages = req.body.messages;
             const prompt  = messages[0].content;

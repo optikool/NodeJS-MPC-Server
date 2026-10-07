@@ -3,7 +3,7 @@ import { MOCK_CUSTOMERS } from "../data/customers.data.ts";
 import { CustomerService } from "../services/customer.service.ts";
 
 export class CustomerController {
-    static async getAllCustomers(req: Request, res: Response): Promise<any> {
+    static async getAllCustomers(req: Request, res: Response): Promise<void> {
         try {
             const { limit } = req.query;
             const customers = await CustomerService.getLatestCustomers(limit ? Number(limit) : undefined);
@@ -14,12 +14,12 @@ export class CustomerController {
         }
     }
 
-    static async getCustomerById(req: Request, res: Response): Promise<any> {
+    static async getCustomerById(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
         const customer = await CustomerService.getCustomerById(String(id));
 
         if (!customer) {
-           return res.status(404).json({ error: "Customer not found" });
+           res.status(404).json({ error: "Customer not found" });
         }
 
         res.json(customer);

@@ -1,3 +1,11 @@
+export interface Order {
+  _id: string;
+  product: string;
+  price: number;
+  customer: string; // Reference to Customer _id
+  date: string;
+}
+
 export const MOCK_ORDERS = [
   {
     _id: "60d0fe4f5311236168a109cc",

@@ -1,8 +1,11 @@
-import { MOCK_CUSTOMERS } from "../data/customers.data.ts";
-import { MOCK_ORDERS } from "../data/orders.data.ts";
+import { MOCK_CUSTOMERS, type Customer } from "../data/customers.data.ts";
+import { MOCK_ORDERS, type Order } from "../data/orders.data.ts";
+
+export interface CustomerWithOrders extends Customer {
+}
 
 export class OrderService {
-    static async getLatestOrders(limit?: number): Promise<any[]> {
+    static async getLatestOrders(limit?: number): Promise<Order[]> {
         const sortedOrders = MOCK_ORDERS.sort((a, b) => 
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
@@ -15,7 +18,7 @@ export class OrderService {
     }
 
     static async getLatestOrdersWithCustomerDetails(limit?: number): Promise<any[]> {
-        const customers = MOCK_CUSTOMERS;
+        const customers: Customer[] = MOCK_CUSTOMERS;
         const orders = MOCK_ORDERS.map(order => {
             const customer = customers.find(c => c._id === order.customer);
             return {
@@ -23,6 +26,8 @@ export class OrderService {
                 customer: customer?.name
             };
         });
+
+        console.log("Orders with customer details:", orders);
 
         const sortedOrders = orders.sort((a, b) => 
             new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -34,7 +39,7 @@ export class OrderService {
         return sortedOrders;
     }   
 
-    static async getOrderById(id: string): Promise<any | null> {
+    static async getOrderById(id: string): Promise<Order | null> {
         return MOCK_ORDERS.find(o => o._id === id) || null;
     }
 }

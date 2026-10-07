@@ -1,3 +1,10 @@
+export interface Customer {
+    _id: string;
+    name: string;
+    email: string;
+    joinedAt: string;
+}
+
 export const MOCK_CUSTOMERS = [{
     _id: "60d0fe4f5311236168a109ca",
     name: "John Doe",

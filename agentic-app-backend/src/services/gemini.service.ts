@@ -42,7 +42,7 @@ class GeminiService {
     }
   }
 
-  async generateEmbeddings(data: string | string[], taskType = "RETRIEVAL_QUERY") {
+  async generateEmbeddings(data: string | string[], taskType = "RETRIEVAL_QUERY"): Promise<string | (number[] | undefined)[] | undefined> {
     try {
       const response = await this.genAI.models.embedContent({
         model: "gemini-embedding-001",

@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { MOCK_ORDERS } from "../data/orders.data.ts";
 import { OrderService } from "../services/order.service.ts";
 
 export class OrderController {
@@ -14,13 +13,13 @@ export class OrderController {
         }
     }
 
-    static async getOrderById(req: Request, res: Response) {
+    static async getOrderById(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
             const order = await OrderService.getOrderById(String(id));
 
             if (!order) {
-                return res.status(404).json({ error: "Order not found" });
+                res.status(404).json({ error: "Order not found" });
             }
             res.json(order);
         } catch (error) {
